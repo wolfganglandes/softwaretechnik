@@ -468,13 +468,23 @@ public class CannonGame extends Game implements Serializable{
 		return true;
 	}
 	
-	private boolean kill(int goal1,int goal2, Player player){
+	private boolean killShot(int goal1,int goal2, Player player){
 		if((player==this.whitePlayer &&board[goal1][goal2]=='B')
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
-			finish(player);
+			board[goal1][goal2]='1';
 			return true;
 		}
 		board[goal1][goal2]='1';
+		return false;
+	}
+	private boolean killHit(int start1, int start2, int goal1,int goal2, Player player){
+		if((player==this.whitePlayer &&board[goal1][goal2]=='B')
+			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
+			board[goal1][goal2]=board[start1][start2];
+			board[start1][start2]='1';
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -527,13 +537,15 @@ public class CannonGame extends Game implements Serializable{
 			return true;
 		}else if(checkCannonShotWhite( start1, start2,  goal1, goal2 )
 				||checkCannonShotBlack( start1, start2,  goal1, goal2 )){
-			if(kill( goal1, goal2,player)){return true;}
+			if(killShot( goal1, goal2,player)){
+				finish(player);
+				return true;}
 			updateNext();
 			checkMoveLeft1(this.nextPlayer);
 			return true;
 		}else if(checkBasicHit( start1, start2,  goal1, goal2 )){
 			System.out.println("Check basic hit side");
-			if(kill( goal1, goal2, player)){return true;}
+			if(killHit( start1, start2, goal1, goal2, player)){return true;}
 			System.out.println("Check basic hit side");
 			move(start1, start2,  goal1, goal2);
 			updateNext();
