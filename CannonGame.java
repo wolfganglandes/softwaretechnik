@@ -509,8 +509,8 @@ public class CannonGame extends Game implements Serializable{
 				return true;}
 				}
 			}
-	if(player==whitePlayer){finish(blackPlayer);}
-	else{finish(whitePlayer);}	
+	if(player==this.whitePlayer){finish(this.blackPlayer);}
+	else{finish(this.whitePlayer);}	
 	return false;
 }
 	
@@ -544,9 +544,7 @@ public class CannonGame extends Game implements Serializable{
 			checkMoveLeft1(this.nextPlayer);
 			return true;
 		}else if(checkBasicHit( start1, start2,  goal1, goal2 )){
-			System.out.println("Check basic hit side");
 			if(killHit( start1, start2, goal1, goal2, player)){return true;}
-			System.out.println("Check basic hit side");
 			move(start1, start2,  goal1, goal2);
 			updateNext();
 			checkMoveLeft1(this.nextPlayer);
