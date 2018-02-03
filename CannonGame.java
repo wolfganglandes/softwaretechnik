@@ -34,7 +34,7 @@ public class CannonGame extends Game implements Serializable{
 	
 	char[][] board = new char[10][10];
 	HashMap<Character,Integer> hmap = new HashMap<Character,Integer>();
-
+	
 	
 	/************************
 	 * constructors
@@ -212,8 +212,9 @@ public class CannonGame extends Game implements Serializable{
 	
 	@Override
 	public void setBoard(String state) {
-		char[] stateArray;
-		stateArray = state.toCharArray();
+		for( int i = 0; i < board.length; i++ )
+			   Arrays.fill( board[i], '1' );
+		char[] stateArray = state.toCharArray();
 		int row = 9;
 		int slot = 0;
 		for(int i =0; i< stateArray.length; i++){
@@ -301,7 +302,7 @@ public class CannonGame extends Game implements Serializable{
 			if(board[start1+1][start2]=='w'||board[start1-1][start2]=='w'||board[start1+1][start2+1]=='w'
 			||board[start1][start2+1]=='w'||board[start1-1][start2+1]=='w'||board[start1+1][start2-1]=='w'
 			||board[start1][start2-1]=='w'||board[start1+1][start2-1]=='w'){
-				System.out.println("test2");return true;
+				return true;
 			}
 			//Test Retreat Move white
 		}}catch(IndexOutOfBoundsException e){} 
@@ -309,7 +310,7 @@ public class CannonGame extends Game implements Serializable{
 			if(board[start1+1][start2]=='b'||board[start1-1][start2]=='b'||board[start1+1][start2+1]=='b'
 			||board[start1][start2+1]=='b'||board[start1-1][start2+1]=='b'||board[start1+1][start2-1]=='b'
 			||board[start1][start2-1]=='b'||board[start1+1][start2-1]=='b'){
-				System.out.println("test3");return true;
+				return true;
 			}
 		}}catch(IndexOutOfBoundsException e){} 
 		return false;
@@ -383,7 +384,6 @@ public class CannonGame extends Game implements Serializable{
  		char goalLocation = board[goal1][goal2];
  		if(startLocation == 'w'&& (goalLocation =='b'||goalLocation == 'B')){
 			try{if(start2==goal2&&start1==goal1+4|| start2==goal2&&start1==goal1+5 && board[start1-1][start2]=='w' && board[start1-2][start2]=='w'&& board[start1-3][start2]=='1'){
-				System.out.println("ASDF");
 				return true; }}catch(IndexOutOfBoundsException e){} 
 			try{ if (start2==goal2 && start1==goal1-4 || start2==goal2 && start1==goal1-5 && board[start1+1][start2+1]=='w' && board[start1+2][start2]=='w'&& board[start1+3][start2]=='1'){
 				return true; }}catch(IndexOutOfBoundsException e){} 
@@ -428,8 +428,6 @@ public class CannonGame extends Game implements Serializable{
 	}
 	
 	private boolean setCity(int start1, int start2, Player player){
-		System.out.println(start1);
-		System.out.println(start2);
 		if(player ==this.whitePlayer){
 			if(start2<9&&start2>0&&start1==9){
 				board[start1][start2]='W';
@@ -472,6 +470,7 @@ public class CannonGame extends Game implements Serializable{
 		if((player==this.whitePlayer &&board[goal1][goal2]=='B')
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
 			board[goal1][goal2]='1';
+			finish(player);
 			return true;
 		}
 		board[goal1][goal2]='1';
@@ -482,6 +481,8 @@ public class CannonGame extends Game implements Serializable{
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
 			board[goal1][goal2]=board[start1][start2];
 			board[start1][start2]='1';
+			finish(player);
+			
 			return true;
 		}
 		
@@ -496,6 +497,8 @@ public class CannonGame extends Game implements Serializable{
 					}
 				}
 			}
+		if(player==this.whitePlayer){finish(this.blackPlayer);}
+		else{finish(this.whitePlayer);}	
 		return false;
 	}
 	
@@ -509,8 +512,8 @@ public class CannonGame extends Game implements Serializable{
 				return true;}
 				}
 			}
-	if(player==this.whitePlayer){finish(this.blackPlayer);}
-	else{finish(this.whitePlayer);}	
+		if(player==this.whitePlayer){finish(this.blackPlayer);}
+		else{finish(this.whitePlayer);}	
 	return false;
 }
 	
@@ -537,16 +540,16 @@ public class CannonGame extends Game implements Serializable{
 			return true;
 		}else if(checkCannonShotWhite( start1, start2,  goal1, goal2 )
 				||checkCannonShotBlack( start1, start2,  goal1, goal2 )){
-			if(killShot( goal1, goal2,player)){
-				finish(player);
-				return true;}
+			if(killShot( goal1, goal2,player)){return true;}
 			updateNext();
 			checkMoveLeft1(this.nextPlayer);
 			return true;
 		}else if(checkBasicHit( start1, start2,  goal1, goal2 )){
-			if(killHit( start1, start2, goal1, goal2, player)){return true;}
+			if(killHit( start1, start2, goal1, goal2, player)){
+				return true;}
 			move(start1, start2,  goal1, goal2);
 			updateNext();
+			
 			checkMoveLeft1(this.nextPlayer);
 			return true;
 		}return false;
@@ -574,6 +577,7 @@ public class CannonGame extends Game implements Serializable{
  		//Beware the incredible masterChecker!!!
  		if(masterChecker(start1, start2,  goal1, goal2, player)){
  			history.add(new Move(moveString,currentBoard,player));
+ 			
  			return true;
  		}else{return false;}	
 	}
