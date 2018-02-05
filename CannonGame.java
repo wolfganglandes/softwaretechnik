@@ -482,10 +482,8 @@ public class CannonGame extends Game implements Serializable{
 			board[goal1][goal2]=board[start1][start2];
 			board[start1][start2]='1';
 			finish(player);
-			
 			return true;
 		}
-		
 		return false;
 	}
 
@@ -493,7 +491,7 @@ public class CannonGame extends Game implements Serializable{
 			for(int i = 0 ; i<board.length; i++){
 				for(int x = 0; x<board[i].length; x++){
 					if((board[i][x]=='w'&&player==this.whitePlayer)||(board[i][x]=='b'&&player==this.blackPlayer)){
-						return checkMoveLeft2(i,x,player);
+						if(checkMoveLeft2(i,x,player)){return true;}
 					}
 				}
 			}
@@ -505,15 +503,14 @@ public class CannonGame extends Game implements Serializable{
 	private boolean checkMoveLeft2(int i, int x, Player player){
 		for(int ii = 0 ; ii<board.length; ii++){
 			for(int xx = 0; xx<board[ii].length; xx++){
+				System.out.println("Check moves left");
 				if(checkMoves(i,x,ii,xx)||
 				checkCannonShotWhite( i,x,ii,xx)				
 				||checkCannonShotBlack( i,x,ii,xx )||
 				checkBasicHit( i,x,ii,xx )){
-				return true;}
+					return true;}
 				}
 			}
-		if(player==this.whitePlayer){finish(this.blackPlayer);}
-		else{finish(this.whitePlayer);}	
 	return false;
 }
 	
@@ -549,7 +546,6 @@ public class CannonGame extends Game implements Serializable{
 				return true;}
 			move(start1, start2,  goal1, goal2);
 			updateNext();
-			
 			checkMoveLeft1(this.nextPlayer);
 			return true;
 		}return false;
@@ -577,7 +573,6 @@ public class CannonGame extends Game implements Serializable{
  		//Beware the incredible masterChecker!!!
  		if(masterChecker(start1, start2,  goal1, goal2, player)){
  			history.add(new Move(moveString,currentBoard,player));
- 			
  			return true;
  		}else{return false;}	
 	}
