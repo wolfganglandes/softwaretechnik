@@ -471,6 +471,7 @@ public class CannonGame extends Game implements Serializable{
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
 			board[goal1][goal2]='1';
 			finish(player);
+			updateNext();
 			return true;
 		}
 		board[goal1][goal2]='1';
@@ -482,6 +483,7 @@ public class CannonGame extends Game implements Serializable{
 			board[goal1][goal2]=board[start1][start2];
 			board[start1][start2]='1';
 			finish(player);
+			updateNext();
 			return true;
 		}
 		return false;
