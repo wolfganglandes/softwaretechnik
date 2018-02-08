@@ -299,20 +299,33 @@ public class CannonGame extends Game implements Serializable{
 		char startLocation = board[start1][start2];
  		char goalLocation = board[goal1][goal2];
  		try{if(startLocation == 'b' && goalLocation == '1' && start1 == goal1+2 && ((start2 == goal2 && board[start1-1][start2]=='1') ||( start2 == goal2+2 && board[start1-1][start2-1]=='1') || (start2==goal2-2 && board[start1-1][start2+1]=='1'))){
-			if(board[start1+1][start2]=='w'||board[start1-1][start2]=='w'||board[start1+1][start2+1]=='w'
-			||board[start1][start2+1]=='w'||board[start1-1][start2+1]=='w'||board[start1+1][start2-1]=='w'
-			||board[start1][start2-1]=='w'||board[start1+1][start2-1]=='w'){
+ 			if(checkSurrounding(start1, start2, goal1,goal2)){
 				return true;
 			}
 			//Test Retreat Move white
 		}}catch(IndexOutOfBoundsException e){} 
  		try{ if(startLocation == 'w' && goalLocation == '1' && start1 == goal1-2 && ((start2 == goal2 && board[start1+1][start2]=='1')|| (start2 == goal2+2 && board[start1+1][start2-1]=='1') || (start2==goal2-2 && board[start1+1][start2+1]=='1'))){
-			if(board[start1+1][start2]=='b'||board[start1-1][start2]=='b'||board[start1+1][start2+1]=='b'
-			||board[start1][start2+1]=='b'||board[start1-1][start2+1]=='b'||board[start1+1][start2-1]=='b'
-			||board[start1][start2-1]=='b'||board[start1+1][start2-1]=='b'){
+			if(checkSurrounding(start1, start2, goal1,goal2)){
 				return true;
 			}
 		}}catch(IndexOutOfBoundsException e){} 
+		return false;
+	}
+	private boolean checkSurrounding (int start1, int start2, int goal1, int goal2){
+		char opp =' ';
+		if(board[start1][start2]=='w'){
+			opp = 'b';
+		}else{
+			opp ='w';
+		}
+		try {if(board[start1][start2+1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1][start2-1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1+1][start2+1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1+1][start2]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1+1][start2-1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1-1][start2+1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1-1][start2]==opp){return true;}}catch(IndexOutOfBoundsException e){}
+		try {if(board[start1-1][start2-1]==opp){return true;}}catch(IndexOutOfBoundsException e){}
 		return false;
 	}
 	
@@ -505,7 +518,6 @@ public class CannonGame extends Game implements Serializable{
 	private boolean checkMoveLeft2(int i, int x, Player player){
 		for(int ii = 0 ; ii<board.length; ii++){
 			for(int xx = 0; xx<board[ii].length; xx++){
-				System.out.println("Check moves left");
 				if(checkMoves(i,x,ii,xx)||
 				checkCannonShotWhite( i,x,ii,xx)				
 				||checkCannonShotBlack( i,x,ii,xx )||
