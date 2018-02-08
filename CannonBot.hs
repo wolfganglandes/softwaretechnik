@@ -125,10 +125,10 @@ else testL (x) (y+1) c  (tail str) ( out)
 goalW :: [Int]->[Int]->[Int]->[Int]->[Int]->[Int]->[Int]->[Int]
 goalW _  _ _ _ _ [] out = out
 --CheckBasic movemenet
-goalW isEmpty containsw containsb containsW containsB arr out = if((inField ((getX (head arr)-1)) ((getY (head arr)-1))) && not (((head arr)-9) `elem` containsw) && not (((head arr)-9) `elem` out)) 
+goalW isEmpty containsw containsb containsW containsB arr out = if((inField ((getX (head arr)-1)) ((getY (head arr)+1))) && not (((head arr)-9) `elem` containsw) && not (((head arr)-9) `elem` out)) 
 then  goalW isEmpty containsw containsb containsW containsB (arr) (out ++ [((head arr)-9) ])
 
-else if((inField ((getX (head arr)-1)) ((getY (head arr)+1))) && not (((head arr)-11) `elem` containsw) && not (((head arr)-11) `elem` out))
+else if((inField ((getX (head arr)-1)) ((getY (head arr)-1))) && not (((head arr)-11) `elem` containsw) && not (((head arr)-11) `elem` out))
 then  goalW isEmpty containsw containsb containsW containsB ( arr) (out ++ [((head arr)-11) ])
 else if( (inField ((getX (head arr)-1)) ((getY (head arr)))) && not (((head arr)-10) `elem` containsw) && not (((head arr)-10) `elem` out))
 then  goalW isEmpty containsw containsb containsW containsB ( arr) (out ++ [((head arr)-10) ])
