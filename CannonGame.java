@@ -233,7 +233,8 @@ public class CannonGame extends Game implements Serializable{
 		}
 		for(int i = 0 ; i<board.length; i++){
 			for(int x = 0; x<board[i].length; x++){
-				if(board[i][x]==0){board[i][x]='1';}
+				if(board[i][x]==0){
+					board[i][x]='1';}
 			}
 		}
 	}
@@ -244,7 +245,6 @@ public class CannonGame extends Game implements Serializable{
 		for(int i = board.length-1 ; i>=0; i--){
 		int count = 0;
 			for(int x = 0; x<board.length; x++){
-				//s = s + board[i][x];
 				if(board[i][x] != '1'){
 					if(count!=0){
 						s=s+(char)(count + '0');
@@ -266,11 +266,10 @@ public class CannonGame extends Game implements Serializable{
 	
 	private boolean checkInput(String moveString){
 		if(!(hmap.containsKey(moveString.charAt(0)))||
-				(!Character.isDigit(moveString.charAt(1)) &&
-						Character.getNumericValue(moveString.charAt(1))>=0) ||
+				!Character.isDigit(moveString.charAt(1))  ||
+				(!Character.toString(moveString.charAt(2)).equals("-"))||
 			!(hmap.containsKey(moveString.charAt(3)))||
-				(!Character.isDigit(moveString.charAt(4))  &&
-						Character.getNumericValue(moveString.charAt(4))>=0))
+				!Character.isDigit(moveString.charAt(4)))
 				{return false;}else{return true;}
 	}
 	
@@ -392,6 +391,7 @@ public class CannonGame extends Game implements Serializable{
 	return false;
 	}
 	
+	
 	private boolean checkCannonShotWhite( int start1, int start2, int goal1,int goal2){
 		char startLocation = board[start1][start2];
  		char goalLocation = board[goal1][goal2];
@@ -415,7 +415,7 @@ public class CannonGame extends Game implements Serializable{
 		}
 	return false;
 	}
-	
+	//Check if cannonshot is possible for black
 	private boolean checkCannonShotBlack( int start1, int start2, int goal1,int goal2){
 		char startLocation = board[start1][start2];
  		char goalLocation = board[goal1][goal2];
@@ -439,23 +439,23 @@ public class CannonGame extends Game implements Serializable{
 		}
 	return false;
 	}
-	
+	//Check if city is allowed to be placed and does it if ok 
 	private boolean setCity(int start1, int start2, Player player){
 		if(player ==this.whitePlayer){
-			if(start2<9&&start2>0&&start1==9){
+			if(start2<9 && start2>0 && start1==9){
 				board[start1][start2]='W';
 				return true;
 			}
 			
-		}else if(player == this.blackPlayer){
+		}else 
 			if(start2<9&&start2>0&&start1==0){
 				board[start1][start2]='B';
 				return true;
 			}
-		}
+		
 		return false;
 	}
-	
+	//Guess what, checks city
 	private boolean checkCity(Player player){
 		if(player==this.whitePlayer){
 			for(int i = 0 ; i<board.length; i++){
@@ -473,12 +473,14 @@ public class CannonGame extends Game implements Serializable{
 		return false;
 	}
 	
+	//Move just move nothing more... ;) Set start field to '1'
 	private boolean move(int start1, int start2, int goal1,int goal2){
 		board[goal1][goal2]=board[start1][start2];
 		board[start1][start2]='1';
 		return true;
 	}
 	
+	//Check if cannon shot kills City
 	private boolean killShot(int goal1,int goal2, Player player){
 		if((player==this.whitePlayer &&board[goal1][goal2]=='B')
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
@@ -490,6 +492,8 @@ public class CannonGame extends Game implements Serializable{
 		board[goal1][goal2]='1';
 		return false;
 	}
+	
+	//Check if basic hit kills city
 	private boolean killHit(int start1, int start2, int goal1,int goal2, Player player){
 		if((player==this.whitePlayer &&board[goal1][goal2]=='B')
 			||(player==this.blackPlayer &&board[goal1][goal2]=='W')){
@@ -501,7 +505,7 @@ public class CannonGame extends Game implements Serializable{
 		}
 		return false;
 	}
-
+//Find all figures left for player and start checkMoveLeft2
 	private boolean checkMoveLeft1(Player player){
 			for(int i = 0 ; i<board.length; i++){
 				for(int x = 0; x<board[i].length; x++){
@@ -514,20 +518,19 @@ public class CannonGame extends Game implements Serializable{
 		else{finish(this.whitePlayer);}	
 		return false;
 	}
-	
+	//Check for each start position all goal position if any move is legit
 	private boolean checkMoveLeft2(int i, int x, Player player){
 		for(int ii = 0 ; ii<board.length; ii++){
 			for(int xx = 0; xx<board[ii].length; xx++){
-				if(checkMoves(i,x,ii,xx)||
-				checkCannonShotWhite( i,x,ii,xx)				
+				if(checkCannonShotWhite( i,x,ii,xx)				
 				||checkCannonShotBlack( i,x,ii,xx )||
-				checkBasicHit( i,x,ii,xx )){
+				checkBasicHit( i,x,ii,xx )||checkMoves(i,x,ii,xx)){
 					return true;}
 				}
 			}
 	return false;
 }
-	
+	//Checked Basic moves: Basic move + retreat + CannonMove
 	private boolean checkMoves ( int start1, int start2, int goal1,int goal2){
 		
 		if(checkBasicMove( start1, start2,  goal1, goal2 )){
@@ -543,6 +546,7 @@ public class CannonGame extends Game implements Serializable{
 		return false;
 	}
 
+	//Checked all the possible moves
 	private boolean masterChecker ( int start1, int start2, int goal1,int goal2, Player player){
 		if(checkMoves(start1, start2,  goal1, goal2)){
 			move(start1, start2,  goal1, goal2);
