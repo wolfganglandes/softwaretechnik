@@ -231,12 +231,6 @@ public class CannonGame extends Game implements Serializable{
 				}
 			}
 		}
-		for(int i = 0 ; i<board.length; i++){
-			for(int x = 0; x<board[i].length; x++){
-				if(board[i][x]==0){
-					board[i][x]='1';}
-			}
-		}
 	}
 	
 	@Override
@@ -274,8 +268,8 @@ public class CannonGame extends Game implements Serializable{
 	}
 	
 	private boolean checkCorrectPlayer(char startLocation, Player player){
-			if(((startLocation=='w'||startLocation=='W')&&this.whitePlayer==player)
-					||((startLocation=='b'||startLocation=='B') && this.blackPlayer==player)){
+			if(((startLocation=='w')&&this.whitePlayer==player)
+					||((startLocation=='b') && this.blackPlayer==player)){
 					return true;
 					}else{return false;}
 	}
@@ -396,21 +390,21 @@ public class CannonGame extends Game implements Serializable{
 		char startLocation = board[start1][start2];
  		char goalLocation = board[goal1][goal2];
  		if(startLocation == 'w'&& (goalLocation =='b'||goalLocation == 'B')){
-			try{if(start2==goal2&&start1==goal1+4|| start2==goal2&&start1==goal1+5 && board[start1-1][start2]=='w' && board[start1-2][start2]=='w'&& board[start1-3][start2]=='1'){
+			try{if(((start2==goal2&&start1==goal1+4)|| (start2==goal2&&start1==goal1+5)) && board[start1-1][start2]=='w' && board[start1-2][start2]=='w'&& board[start1-3][start2]=='1'){
 				return true; }}catch(IndexOutOfBoundsException e){} 
-			try{ if (start2==goal2 && start1==goal1-4 || start2==goal2 && start1==goal1-5 && board[start1+1][start2+1]=='w' && board[start1+2][start2]=='w'&& board[start1+3][start2]=='1'){
+			try{ if (((start2==goal2 && start1==goal1-4 )||( start2==goal2 && start1==goal1-5)) && board[start1+1][start2+1]=='w' && board[start1+2][start2]=='w'&& board[start1+3][start2]=='1'){
 				return true; }}catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2+4 && start1==goal1 || start2==goal2+5 &&start1==goal1 && board[start1][start2-1]=='w' && board[start1][start2-2]=='w'&& board[start1][start2-3]=='1'){
+			try{ if(((start2==goal2+4 && start1==goal1 )||( start2==goal2+5 &&start1==goal1)) && board[start1][start2-1]=='w' && board[start1][start2-2]=='w'&& board[start1][start2-3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4 && start1==goal1 || start2==goal2-5 && start1==goal1 && board[start1][start2+1]=='w' && board[start1][start2+2]=='w'&& board[start1][start2+3]=='1'){
+			try{ if(((start2==goal2-4 && start1==goal1 )||( start2==goal2-5 && start1==goal1)) && board[start1][start2+1]=='w' && board[start1][start2+2]=='w'&& board[start1][start2+3]=='1'){
 				return true;}}catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2+4 && start1==goal1+4 || start2==goal2+5 && start1==goal1+5 &&  board[start1-1][start2-1]=='w' && board[start1-2][start2-2]=='w'&& board[start1-3][start2-3]=='1'){
+			try{ if(((start2==goal2+4 && start1==goal1+4 )||( start2==goal2+5 && start1==goal1+5)) &&  board[start1-1][start2-1]=='w' && board[start1-2][start2-2]=='w'&& board[start1-3][start2-3]=='1'){
 				return true; } }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2+4 && start1==goal1-4 || start2==goal2+5 && start1==goal1-5 && board[start1+1][start2-1]=='w' && board[start1+2][start2-2]=='w'&& board[start1+3][start2-3]=='1'){
+			try{ if(((start2==goal2+4 && start1==goal1-4 )||( start2==goal2+5 && start1==goal1-5)) && board[start1+1][start2-1]=='w' && board[start1+2][start2-2]=='w'&& board[start1+3][start2-3]=='1'){
 				return true; } }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4 && start1==goal1-4 || start2==goal2-5 && start1==goal1-5 && board[start1+1][start2+1]=='w' && board[start1+2][start2+2]=='w'&& board[start1+3][start2+3]=='1'){
+			try{ if(((start2==goal2-4 && start1==goal1-4 )||( start2==goal2-5 && start1==goal1-5)) && board[start1+1][start2+1]=='w' && board[start1+2][start2+2]=='w'&& board[start1+3][start2+3]=='1'){
 				return true; }}catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4 && start1==goal1+4 || start2==goal2-5 && start1==goal1+5 && board[start1-1][start2+1]=='w' && board[start1-2][start2+2]=='w'&& board[start1-3][start2+3]=='1'){
+			try{ if(((start2==goal2-4 && start1==goal1+4 )||( start2==goal2-5 && start1==goal1+5)) && board[start1-1][start2+1]=='w' && board[start1-2][start2+2]=='w'&& board[start1-3][start2+3]=='1'){
 				return true; }}catch(IndexOutOfBoundsException e){} 		
 		}
 	return false;
@@ -420,21 +414,21 @@ public class CannonGame extends Game implements Serializable{
 		char startLocation = board[start1][start2];
  		char goalLocation = board[goal1][goal2];
 		if(startLocation == 'b'&& (goalLocation =='w'||goalLocation == 'W')){
-			try{if(start2==goal2&&start1==goal1+4|| start2==goal2&&start1==goal1+5 && board[start1-1][start2]=='b' && board[start1-2][start2]=='b'&& board[start1-3][start2]=='1'){
+			try{if(((start2==goal2&&start1==goal1+4)||( start2==goal2&&start1==goal1+5)) && board[start1-1][start2]=='b' && board[start1-2][start2]=='b'&& board[start1-3][start2]=='1'){
 				return true;}}catch(IndexOutOfBoundsException e){} 
-			try{ if (start2==goal2 && start1==goal1-4 || start2==goal2&&start1==goal1-5 && board[start1+1][start2]=='b' && board[start1+2][start2]=='b'&& board[start1+3][start2]=='1'){
+			try{ if(((start2==goal2 && start1==goal1-4 )||( start2==goal2&&start1==goal1-5)) && board[start1+1][start2]=='b' && board[start1+2][start2]=='b'&& board[start1+3][start2]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2+4 &&start1==goal1 || start2==goal2+5&&start1==goal1 && board[start1][start2-1]=='b' && board[start1][start2-2]=='b'&& board[start1][start2-3]=='1'){
+			try{ if(((start2==goal2+4 &&start1==goal1 )||( start2==goal2+5&&start1==goal1)) && board[start1][start2-1]=='b' && board[start1][start2-2]=='b'&& board[start1][start2-3]=='1'){
 				return true; } }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4&&start1==goal1 || start2==goal2-5&&start1==goal1 && board[start1][start2+1]=='b' && board[start1][start2+2]=='b'&& board[start1][start2+3]=='1'){
+			try{ if(((start2==goal2-4&&start1==goal1 )||( start2==goal2-5&&start1==goal1)) && board[start1][start2+1]=='b' && board[start1][start2+2]=='b'&& board[start1][start2+3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2+4 &&start1==goal1+4 || start2==goal2+5&&start1==goal1+5 &&  board[start1-1][start2-1]=='b' && board[start1-2][start2-2]=='b'&& board[start1-3][start2-3]=='1'){
+			try{ if(((start2==goal2+4 &&start1==goal1+4 )||( start2==goal2+5&&start1==goal1+5)) &&  board[start1-1][start2-1]=='b' && board[start1-2][start2-2]=='b'&& board[start1-3][start2-3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{if(start2==goal2+4&&start1==goal1-4 || start2==goal2+5&&start1==goal1-5 && board[start1+1][start2-1]=='b' && board[start1+2][start2-2]=='b'&& board[start1+3][start2-3]=='1'){
+			try{if(((start2==goal2+4&&start1==goal1-4 )||( start2==goal2+5&&start1==goal1-5)) && board[start1+1][start2-1]=='b' && board[start1+2][start2-2]=='b'&& board[start1+3][start2-3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4 &&start1==goal1-4 || start2==goal2-5&&start1==goal1-5 && board[start1+1][start2+1]=='b' && board[start1+2][start2+2]=='b'&& board[start1+3][start2+3]=='1'){
+			try{ if(((start2==goal2-4 &&start1==goal1-4 )||( start2==goal2-5&&start1==goal1-5)) && board[start1+1][start2+1]=='b' && board[start1+2][start2+2]=='b'&& board[start1+3][start2+3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
-			try{ if(start2==goal2-4&&start1==goal1+4 || start2==goal2-5&&start1==goal1+5 && board[start1-1][start2+1]=='b' && board[start1-2][start2+2]=='b'&& board[start1-3][start2+3]=='1'){
+			try{ if(((start2==goal2-4&&start1==goal1+4 )||( start2==goal2-5&&start1==goal1+5)) && board[start1-1][start2+1]=='b' && board[start1-2][start2+2]=='b'&& board[start1-3][start2+3]=='1'){
 				return true;} }catch(IndexOutOfBoundsException e){} 
 		}
 	return false;
@@ -463,13 +457,13 @@ public class CannonGame extends Game implements Serializable{
 					if(board[i][x]=='W'){return true;}
 				}
 			}
-		}else if(player==this.blackPlayer){
+		}else 
 			for(int i = 0 ; i<board.length; i++){
 				for(int x = 0; x<board[i].length; x++){
 					if(board[i][x]=='B'){return true;}
 				}
 			}
-		}
+		
 		return false;
 	}
 	
